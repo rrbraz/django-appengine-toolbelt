@@ -1,0 +1,15 @@
+db.sqllite3
+*.pyc
+lib/
+env/
+venv/
+dist/
+django_previdencia_privada.egg-info/
+/.idea/
+*.sqlite3
+/static/
+/media/
+.project
+.pydevproject
+.settings/
+*~
