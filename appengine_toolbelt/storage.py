@@ -1,6 +1,7 @@
 import cloudstorage
 from django.conf import settings
 from django.core.files.storage import Storage
+from django.core.files.base import File
 
 
 class GoogleCloudStorage(Storage):
@@ -11,7 +12,7 @@ class GoogleCloudStorage(Storage):
 
     def _open(self, name, mode='r'):
         mode = mode[:1]
-        return cloudstorage.open(self.bucket + name, mode)
+        return File(cloudstorage.open(self.bucket + name, mode))
 
     def _save(self, name, content):
         gcs_file = None
