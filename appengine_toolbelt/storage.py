@@ -9,19 +9,18 @@ class GoogleCloudStorage(Storage):
         self.bucket = bucket or settings.DEFAULT_STORAGE_BUCKET
         self.bucket = '/' + self.bucket + '/'
 
-    def _open(self, name, mode='rb'):
+    def _open(self, name, mode='r'):
+        mode = mode[:1]
         return cloudstorage.open(self.bucket + name, mode)
 
     def _save(self, name, content):
         gcs_file = None
         for chunk in content.chunks():
             if gcs_file is None:
-                mode = 'w' if isinstance(chunk, bytes) else 'w'
-                _file = gcs_file = cloudstorage.open(self.bucket + name, mode)
+                gcs_file = cloudstorage.open(self.bucket + name, 'w')
             gcs_file.write(chunk)
         if gcs_file is not None:
             gcs_file.close()
-
         return name
 
     def delete(self, name):
