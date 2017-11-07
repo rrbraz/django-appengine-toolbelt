@@ -4,6 +4,9 @@ import urllib
 from django.conf import settings
 from django.core.files.storage import Storage
 from django.core.files.base import File
+from django.utils.encoding import force_unicode
+
+DEFAULT_CONTENT_TYPE = 'application/binary'
 
 
 class GoogleCloudStorage(Storage):
@@ -52,3 +55,6 @@ class GoogleCloudStorage(Storage):
 
     def url(self, name):
         return settings.MEDIA_URL + name
+
+    def get_valid_name(self, name):
+        return force_unicode(name).strip().replace('\\', '/')
